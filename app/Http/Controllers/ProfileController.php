@@ -53,7 +53,7 @@ class ProfileController extends Controller
         Auth::user()->update($data);
 
         Auth::user()->pinCodes()->create([
-            'pin_code' => md5($data['pin_code'])
+            'pin_code' => $data['pin_code']
         ]);
 
         return Redirect::route('profile.edit')->with('status', 'pin-code-updated');

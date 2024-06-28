@@ -36,7 +36,7 @@ class PinCodeController extends Controller
         Auth::user()->update($data);
 
         Auth::user()->pinCodes()->create([
-            'pin_code' => md5($data['pin_code'])
+            'pin_code' => $data['pin_code']
         ]);
 
         return redirect(route('dashboard', absolute: true));
