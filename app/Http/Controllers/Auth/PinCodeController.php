@@ -22,7 +22,7 @@ class PinCodeController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'fin' => ['required', 'string', 'max:7', 'min:7', 'unique:users,fin,id,' . Auth::id(). ',id'],
+            'fin' => ['required', 'string', 'max:7', 'min:7', 'unique:users,fin,' . Auth::id(). ',id'],
             'pin_code' => ['required', 'digits:4', new PinCodeUnique]
         ], [
             'pin_code.digits' => 'The pin code must be 6 digits.'
