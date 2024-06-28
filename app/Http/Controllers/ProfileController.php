@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Rules\PinCodeUnique;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,28 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function pinCodeUpdate(Request $request)
+    {
+        $data = $request->validate([
+            'pin_code' => ['required', 'digits:4', new PinCodeUnique]
+        ], [
+            'pin_code.digits' => 'The pin code must be 6 digits.'
+        ]);
+
+        $data = [
+            'pin_code' => md5($data['pin_code']),
+        ];
+
+        Auth::user()->update($data);
+
+        Auth::user()->pinCodes()->create([
+            'pin_code' => md5($data['pin_code'])
+        ]);
+
+        return Redirect::route('profile.edit')->with('status', 'pin-code-updated');
+
     }
 
     /**

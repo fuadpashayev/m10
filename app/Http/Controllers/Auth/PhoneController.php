@@ -11,6 +11,10 @@ class PhoneController extends Controller
 {
     public function create()
     {
+        if (Auth::user()->getAttribute('phone'))
+            return redirect(route('dashboard', absolute: true)
+        );
+
         return view('auth.phone');
     }
 

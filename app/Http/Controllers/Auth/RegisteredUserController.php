@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'merchant_id' => $this->merchant_id()
         ]);
 
         event(new Registered($user));
@@ -48,5 +49,12 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect()->route('phone.create');
+    }
+
+    public function merchant_id()
+    {
+        $last = User::query()->latest()->value('merchant_id') ?: 1000000;
+
+        return $last + 1;
     }
 }
