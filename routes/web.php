@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\PhoneMiddleware;
 use App\Http\Middleware\PinCodeMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -10,22 +11,29 @@ Route::get('/', function () {
 });
 
 Route::group([
-    'middleware' => ['auth', 'verified', PhoneMiddleware::class,PinCodeMiddleware::class, ]
+    'middleware' => ['auth', 'verified', PhoneMiddleware::class, PinCodeMiddleware::class,]
 ], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        Route::put('/profile/pin-code', [ProfileController::class, 'pinCodeUpdate'])->name('pin-code.update');
-    });
+    Route::middleware('auth')
+        ->group(function () {
+            Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+            Route::put('profile/pin-code', [ProfileController::class, 'pinCodeUpdate'])->name('pin-code.update');
+
+
+            Route::group([
+                'as' => 'transactions.',
+                'prefix' => 'transactions',
+            ], function () {
+                Route::post('generate', [TransactionController::class, 'generate'])->name('generate');
+                Route::get('{transaction}/payment', [TransactionController::class, 'payment'])->name('payment');
+            });
+        });
 });
 
 
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
