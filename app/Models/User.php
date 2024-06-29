@@ -26,8 +26,9 @@ class User extends Authenticatable
         'phone',
         'password',
         'balance',
+        'otp_balance_limit',
         'fin',
-        'pin_code'
+        'pin_code',
     ];
 
     /**
