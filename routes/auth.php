@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\PhoneController;
+use App\Http\Controllers\Auth\PinCodeController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +38,17 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('phone', [PhoneController::class, 'create'])
+                ->name('phone.create');
+
+    Route::post('phone', [PhoneController::class, 'store']);
+
+    Route::get('pin-code', [PinCodeController::class, 'create'])
+                ->name('pin-code');
+
+    Route::post('pin-code', [PinCodeController::class, 'store']);
+
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
