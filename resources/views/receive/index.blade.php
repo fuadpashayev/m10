@@ -58,6 +58,7 @@
     <script>
         let isProcessing = false;
         let transactionId = null;
+        const html5QrCode = new Html5Qrcode("qr");
         const paymentCreateCard = document.getElementById('payment-create-card');
         const paymentProcessCard = document.getElementById('payment-process-card');
         const paymentCompleteCard = document.getElementById('payment-complete-card');
@@ -78,16 +79,15 @@
         });
 
         const startScan = () => {
-            const html5QrCode = new Html5Qrcode("qr");
             Html5Qrcode.getCameras().then(devices => {
                 if (devices && devices.length) {
                     const config = {fps: 100, qrbox: {width: 250, height: 250}};
                     html5QrCode.start({facingMode: "environment"}, config, (decodedText) => {
-                        if(isProcessing) return;
-                        isProcessing = true;
-
-                        const {fr: payer_id} = JSON.parse(decodedText);
-                        generatePayment(payer_id);
+                        if(!isProcessing) {
+                            isProcessing = true;
+                            const {fr: payer_id} = JSON.parse(decodedText);
+                            generatePayment(payer_id);
+                        }
                     });
 
                 }
@@ -112,9 +112,7 @@
             } catch (e) {
                 console.log({e})
             } finally {
-                setTimeout(() => {
-                    isProcessing = false;
-                }, 1000)
+                html5QrCode.stop();
             }
         }
 
@@ -128,7 +126,6 @@
                 console.log({e})
             }
         }
-
 
     </script>
 </x-app-layout>

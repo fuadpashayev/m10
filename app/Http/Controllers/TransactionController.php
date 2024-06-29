@@ -20,9 +20,7 @@ class TransactionController extends Controller
 
     public function generate(TransactionGenerateRequest $request)
     {
-        $transaction = $this->service->generate(
-            $request->validated()
-        );
+        $transaction = $this->service->generate($request->validated());
 
         return response()->json([
             'message' => 'Transaction created successfully. Please enter your pin code to proceed.',
