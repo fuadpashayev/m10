@@ -1,9 +1,16 @@
-#payment-process-card, #payment-complete-card {
+#payment-process-card, #payment-complete-card, #payment-result-card {
     display: none;
 }
-
 
 #qr {
     width: 250px;
     height: 250px;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

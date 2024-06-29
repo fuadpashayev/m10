@@ -44,7 +44,7 @@ class TransactionService
 
         $otp_balance_limit = $payer->getAttribute('otp_balance_limit');
 
-        if ($otp_balance_limit >= $data['amount']) {
+        if ($data['amount'] > $otp_balance_limit && $otp_balance_limit !== 0) {
             # send to email
 
             $pinCode = rand(1000, 9999);
