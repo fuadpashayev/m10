@@ -24,13 +24,13 @@ Route::group([
             Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
             Route::put('profile/pin-code', [ProfileController::class, 'pinCodeUpdate'])->name('pin-code.update');
 
-
             Route::group([
                 'as' => 'transactions.',
                 'prefix' => 'transactions',
             ], function () {
+                Route::get('receive', [TransactionController::class, 'receive'])->name('receive');
                 Route::post('generate', [TransactionController::class, 'generate'])->name('generate');
-                Route::get('{transaction}/payment', [TransactionController::class, 'payment'])->name('payment');
+                Route::post('{transaction?}/complete', [TransactionController::class, 'complete'])->name('complete');
             });
         });
 });

@@ -1,0 +1,9 @@
+#payment-process-card, #payment-complete-card {
+    display: none;
+}
+
+
+#qr {
+    width: 250px;
+    height: 250px;
+}

@@ -17,12 +17,5 @@ class PinCodeUnique implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
 
-        $id = Auth::id();
-
-        $value = md5($value);
-
-        if (PinCode::query()->where('user_id', $id)->where('pin_code', $value)->exists()) {
-            $fail('You have used this :attribute before, please enter another :attribute');
-        }
     }
 }

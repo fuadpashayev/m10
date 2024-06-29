@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Enums\Transaction\TransactionStatus;
-use App\Http\Requests\Transaction\TransactionGenerateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\User\Transaction;
 
 class TransactionService
 {
@@ -30,12 +29,11 @@ class TransactionService
             ]);
 
 
-        return User\Transaction::query()->create($data);
-        dd($data);
+        return Transaction::query()->create($data);
     }
 
 
-    public function setPinCode($data)
+    public function setPinCode($data): array
     {
 
         $payer = User::query()->find($data['payer_id']);
@@ -62,5 +60,10 @@ class TransactionService
             'pin_code' => $pinCode,
             'pin_expires_at' => $pinExpiresAt
         ];
+    }
+
+    public function complete()
+    {
+
     }
 }

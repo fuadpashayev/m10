@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Transaction\TransactionCompleteRequest;
 use App\Http\Requests\Transaction\TransactionGenerateRequest;
 use App\Models\User\Transaction;
 use App\Services\TransactionService;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     public function __construct(public TransactionService $service)
     {
+    }
+
+    public function receive()
+    {
+        return view('receive.index');
     }
 
     public function generate(TransactionGenerateRequest $request)
@@ -19,13 +24,19 @@ class TransactionController extends Controller
             $request->validated()
         );
 
-        return redirect()->route('transactions.payment', $transaction)->with([
-            'message' => 'Transaction created successfully. Please enter your pin code to proceed.'
+        return response()->json([
+            'message' => 'Transaction created successfully. Please enter your pin code to proceed.',
+            'transaction_id' => $transaction->id
         ]);
     }
 
-    public function payment(Transaction $transaction)
+    public function complete(TransactionCompleteRequest $request, Transaction $transaction)
     {
-        dd($transaction);
+        $this->service->complete($transaction, $request->validated());
+
+        return response()->json([
+            'message' => 'Transaction completed successfully.'
+        ]);
     }
+
 }
