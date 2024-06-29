@@ -1,3 +1,9 @@
 #payment-process-card {
     display: none;
 }
+
+
+#qr {
+    width: 250px;
+    height: 250px;
+}

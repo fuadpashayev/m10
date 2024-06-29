@@ -29,7 +29,7 @@
                             <label class="form-label" for="amount">Amount:</label>
                             <strong id="amount-text"></strong> ₼
                         </div>
-                        <video id="qr"></video>
+                        <div id="qr"></div>
                     </div>
                 </div>
             </div>
@@ -48,21 +48,26 @@
                 document.getElementById('amount-text').innerText = document.getElementById('amount').value;
                 paymentCreateCard.style.display = 'none';
                 paymentProcessCard.style.display = 'block';
+                startScan();
             });
         });
 
-        const html5QrCode = new Html5Qrcode("qr");
-        Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                const config = {fps: 100, qrbox: {width: 250, height: 250}};
-                html5QrCode.start({facingMode: "environment"}, config, (decodedText) => {
-                   console.log({decodedText});
-                });
+        const startScan = () => {
+            const html5QrCode = new Html5Qrcode("qr");
+            Html5Qrcode.getCameras().then(devices => {
+                console.log({devices})
+                if (devices && devices.length) {
+                    const config = {fps: 100, qrbox: {width: 250, height: 250}};
+                    html5QrCode.start({facingMode: "environment"}, config, (decodedText) => {
+                       console.log({decodedText});
+                    });
 
-            }
-        }).catch(cameraError => {
-            console.log('Kamera xətası: ' + cameraError?.toString());
-        });
+                }
+            }).catch(cameraError => {
+                console.log('Kamera xətası: ' + cameraError?.toString());
+            });
+        }
+
 
     </script>
 </x-app-layout>
