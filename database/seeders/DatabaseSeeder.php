@@ -13,15 +13,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Rauf',
+            'surname' => 'Abbaszade',
+            'email' => 'rafo.abbas@gmail.com',
+            'phone' => '0104110144',
+            'fin' => '1234567',
         ]);
 
         $user->pinCodes()->create([
             'pin_code' => $user->getAttribute('pin_code')
         ]);
+
+         $users = User::factory(10)->create();
+
+         $users->each(function ($user) {
+             $user->pinCodes()->create([
+                 'pin_code' => $user->getAttribute('pin_code')
+             ]);
+         });
+
+
     }
 }

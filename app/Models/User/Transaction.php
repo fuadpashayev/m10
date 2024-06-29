@@ -18,7 +18,7 @@ class Transaction extends Model
         'type',
         'status',
         'pin_code',
-        'expires_at',
+        'pin_expires_at',
         'approved_at',
         'declined_at',
     ];

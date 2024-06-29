@@ -5,13 +5,19 @@
         </h2>
     </x-slot>
 
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+            <form action="{{ route('transactions.generate') }}" method="post">
+                @csrf
+                @dump($errors->all())
+                <input type="text" name="payer_id" id="payer_id" value="{{ \App\Models\User::query()->inRandomOrder()->value('id') }}" placeholder="payer_id">
+                <input type="text" name="amount" id="amount" placeholder="amount" value="{{ rand(10,300) }}">
+                <input type="text" name="type" id="amount" placeholder="payment" value="{{ 'payment' }}">
+                <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            </form>
         </div>
     </div>
 </x-app-layout>

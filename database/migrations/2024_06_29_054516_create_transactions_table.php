@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('status');
             $table->string('pin_code');
-            $table->timestamp('expires_at')->nullable();
+            $table->timestamp('pin_expires_at')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('declined_at')->nullable();
             $table->timestamps();
