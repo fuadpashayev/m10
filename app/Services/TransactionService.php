@@ -62,8 +62,33 @@ class TransactionService
         ];
     }
 
-    public function complete()
+    public function complete(Transaction $transaction)
     {
+        $payer = $transaction->getAttribute('payer');
 
+        if ($transaction->getAttribute('amount') > $payer->getAttribute('balance')) {
+            $transaction->update([
+                'status' => TransactionStatus::declined->value,
+                'declined_at' => now()
+            ]);
+
+            return [
+                'status' => 'error',
+                'message' => 'Transaction declined. Insufficient balance.'
+            ];
+        }
+
+
+        $payer->increment('balance', $transaction->getAttribute('amount'));
+
+        $transaction->update([
+            'status' => TransactionStatus::approved->value,
+            'approved_at' => now()
+        ]);
+
+        return [
+            'status' => 'success',
+            'message' => 'Transaction completed successfully.'
+        ];
     }
 }
