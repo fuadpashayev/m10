@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Transaction;
 
 use App\Rules\PinCodeCheck;
+use App\Rules\TransactionReceiverRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TransactionCompleteRequest extends FormRequest
@@ -23,7 +24,15 @@ class TransactionCompleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pin_code' => ['required', 'numeric', 'digits:6', new PinCodeCheck],
+            'pin_code' => ['required', 'numeric', 'digits:4', new PinCodeCheck],
+            'receiver_id' => ['required', 'numeric', 'exists:users,id', new TransactionReceiverRule],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'receiver_id' => $this->route('transaction')->getAttribute('receiver_id'),
+        ]);
     }
 }

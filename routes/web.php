@@ -30,7 +30,7 @@ Route::group([
             ], function () {
                 Route::get('receive', [TransactionController::class, 'receive'])->name('receive');
                 Route::post('generate', [TransactionController::class, 'generate'])->name('generate');
-                Route::post('{transaction?}/complete', [TransactionController::class, 'complete'])->name('complete');
+                Route::any('{transaction?}/complete', [TransactionController::class, 'complete'])->name('complete');
             });
         });
 });

@@ -32,11 +32,10 @@ class TransactionController extends Controller
 
     public function complete(TransactionCompleteRequest $request, Transaction $transaction)
     {
-        $this->service->complete($transaction, $request->validated());
+        $data = $this->service->complete(
+            $transaction
+        );
 
-        return response()->json([
-            'message' => 'Transaction completed successfully.'
-        ]);
+        return response()->json($data);
     }
-
 }
