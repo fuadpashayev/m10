@@ -64,6 +64,13 @@ class TransactionService
 
     public function complete(Transaction $transaction)
     {
+        if ($transaction->getAttribute('status') !== TransactionStatus::pending->value) {
+            return [
+                'status' => 'error',
+                'message' => 'Transaction expired.'
+            ];
+        }
+
         $payer = $transaction->getAttribute('payer');
 
         if ($transaction->getAttribute('amount') > $payer->getAttribute('balance')) {
