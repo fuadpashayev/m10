@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->decimal('balance', 15, 2)->default(0);
+            $table->decimal('otp_balance_limit')->default(0);
             $table->string('fin')->nullable();
             $table->string('pin_code')->nullable();
             $table->rememberToken();
